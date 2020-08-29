@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <title>ImageBank - images</title>
+        <style>
+            .galleryitem {
+                padding: 2px;
+                margin: auto;
+                border: 1px solid #ddd;
+                border-radius: 4px;
+            }
+            .galleryitem:hover {
+                opacity: 0.6;
+                filter: alpha(opacity=60);
+            }
+            .cellforgrid{
+                display: inline-flex;
+                margin: auto;
+            }
+            #mainImg{
+                margin: auto;
+                height: 100%;
+                width: 100%;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div id="ImgV" class="modal fade">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <button class="close" data-dismiss="modal">x</button>
+                    </div>
+                    
+                    <div class="modal-body" style="display: inline-flexbox;"> <img id="mainImg" src=""> </div>
+
+                    <div class="modal-footer"> <span id="Comment">Hello </span> </div>
+                </div>
+            </div>
+        </div>
+
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+              <ul class="navbar-nav mr-auto">
+                <li class="nav-item ">
+                  <a class="nav-link" href="{% url 'main' %}">Загрузить изображение</a>
+                </li>
+                <li class="nav-item active">
+                  <a class="nav-link" href="{% url 'imgbank' %}">Галерея</a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+
+            <div style="display: table;">
+            {% for i in data %}
+                <div class="cellforgrid" style="position: relative;" data-toggle="modal" data-target="#ImgV">
+                    <img class="galleryitem" alt="{{i.title}}" onclick="show(this);" src="{{i.image.url}}">
+                </div>
+            {%endfor%}
+            </div>
+            <script>
+                let items = document.getElementsByClassName("galleryitem");
+                for(var i = 0; i<items.length; ++i){
+                    items[i].width =  document.documentElement.clientWidth * 0.2;
+                    items[i].height =  document.documentElement.clientHeight * 0.2;
+                }
+                function show(elem){
+                    var modalimg = document.getElementById("mainImg");
+                    modalimg.src = elem.src;
+                    var comm = document.getElementById("Comment");
+                    comm.innerText = elem.alt;
+                }
+            </script>
+            <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </body>
+</html>
